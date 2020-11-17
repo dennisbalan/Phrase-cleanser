@@ -1,0 +1,10 @@
+#!/bin/bash
+echo type in something
+read a
+b=`echo $a | tr 'a-z' 'A-Z'`
+c=`echo $b | tr '. , : ? !' ' '`
+d=`echo $c | tr "()[]{}'" '@'`
+d=`echo $d | tr '""' '@'`
+echo $d >> phrases.txt
+e=`sed 's/@/ /' phrases.txt`
+echo $e
