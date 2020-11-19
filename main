@@ -18,12 +18,18 @@ for phrase in $d
 do      
 	count=${hash["$phrase"]}
 	if [[ "$count" == "" ]]
-	then
-		count=1
-	elif [[ "$count" != "" ]]
-	then
-		$count=$((count+1))
-		echo $count
+		then
+			count=1
+                        while [[ i -le ${#hash[@]} ]]
+				do
+				i=0
+			if [[ $phrase == ${hash[i]} ]]
+					then
+						count=$((count+1))
+						echo "found <$count> instances"
+				fi
+				i=$((i+1))
+		done
 	fi
 	echo "count = <$count>"
 	echo $phrase
