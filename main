@@ -8,10 +8,18 @@ d=`echo $c | tr "()[]{}'" '@'`
 d=`echo $d | tr '""' '@'`
 d=`echo $d | tr '@' ' '`
 d=`echo $d | tr ' ' '_'`
-d=`echo $d | tr '. , : ? !' ' '`
+d=`echo $d | tr '. , ! : ; ?' ' '`
 echo $d > phrases.txt
-d=`sed 's/ _/ /' phrases.txt`
+echo $d
+d=`sed '1,$s/ _/ /g' phrases.txt`
+echo $d
 echo $d > phrases.txt
+d=`sed '1,$s/_$/ /g' phrases.txt`
+echo $d > phrases.txt
+echo $d
+d=`sed '1,$s/_ / /g' phrases.txt`
+echo $d > phrases.txt
+echo $d
 declare -A hash
 for phrase in $d
 	do
@@ -28,7 +36,7 @@ done
 done
 for key in ${!hash[@]}
 	do
-		echo key is $key
-		echo value is ${hash["$key"]}
+		
+		echo "tally is ${hash["$key"]} for $key"
 done
 
