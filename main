@@ -1,5 +1,4 @@
 #!/bin/bash
-echo type in something
 while read a
 do
 	temp=$a
@@ -15,29 +14,21 @@ d=`sed 's/ _/ /' phrases.txt`
 echo $d > phrases.txt
 declare -A hash
 for phrase in $d
-do      
+	do
 	count=${hash["$phrase"]}
 	if [[ "$count" == "" ]]
-		then
-			count=1
-                        while [[ i -le ${#hash[@]} ]]
-				do
-				i=0
-			if [[ $phrase == ${hash[i]} ]]
-					then
-						count=$((count+1))
-						echo "found <$count> instances"
-				fi
-				i=$((i+1))
-		done
+	then    echo 
+		count=1
+		hash["$phrase"]=$count
+	else
+	count=$((count+1))
+	hash["$phrase"]=$count
 	fi
-	echo "count = <$count>"
-	echo $phrase
 done
 done
 for key in ${!hash[@]}
 	do
 		echo key is $key
-		echo value is ${hash[$key]}
+		echo value is ${hash["$key"]}
 done
 
