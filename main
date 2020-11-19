@@ -3,7 +3,6 @@ echo type in something
 while read a
 do
 	temp=$a
-done
 f=$temp
 c=`echo $f | tr 'a-z' 'A-Z'`
 d=`echo $c | tr "()[]{}'" '@'`
@@ -13,7 +12,26 @@ d=`echo $d | tr ' ' '_'`
 d=`echo $d | tr '. , : ? !' ' '`
 echo $d > phrases.txt
 d=`sed 's/ _/ /' phrases.txt`
-for solo in $d
-do
-	echo $solo
+echo $d > phrases.txt
+declare -A hash
+for phrase in $d
+do      
+	count=${hash["$phrase"]}
+	if [[ "$count" == "" ]]
+	then
+		count=1
+	elif [[ "$count" != "" ]]
+	then
+		$count=$((count+1))
+		echo $count
+	fi
+	echo "count = <$count>"
+	echo $phrase
 done
+done
+for key in ${!hash[@]}
+	do
+		echo key is $key
+		echo value is ${hash[$key]}
+done
+
