@@ -6,7 +6,8 @@ f=$temp
 c=`echo $f | tr 'a-z' 'A-Z'`
 d=`echo $c | tr "()[]{}'" '@'`
 d=`echo $d | tr '""' '@'`
-d=`echo $d | tr '@' ' '`
+echo $d > phrases.txt
+d=`sed '1, $s/@//g' phrases.txt`
 d=`echo $d | tr ' ' '_'`
 d=`echo $d | tr '. , ! : ; ?' ' '`
 echo $d > phrases.txt
@@ -37,6 +38,6 @@ done
 for key in ${!hash[@]}
 	do
 		
-		echo "tally is ${hash["$key"]} for $key"
+		echo "${hash["$key"]} $key"
 done
 
