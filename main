@@ -1,58 +1,61 @@
 #!/bin/bash
 while read a
 do
-#reads input
-	temp=$a
-f=$temp
+	#reads input
+		temp=$a
+	f=$temp
 
 #converts all letters to upper case
-c=`echo $f | tr 'a-z' 'A-Z'`
+	c=`echo $f | tr 'a-z' 'A-Z'`
+#gets rid of any existing _ symbols
+	#c=`echo $c | tr '_' ' '`
 #converts all () [] {} ' to @
-d=`echo $c | tr "()[]{}'" '@'
+	d=`echo $c | tr "()[]{}'" '@'`
 #converts all "" to @
-d=`echo $d | tr '""' '@'`
+	d=`echo $d | tr '""' '@'`
 #stores $d(the phrases in a test file
-echo $d > phrases.txt
+	echo $d > phrases.txt
 #replaces all @ with nothing
-d=`sed '1, $s/@//g' phrases.txt`
+	d=`sed '1, $s/@//g' phrases.txt`
 #replaces all empty spaces with _
-d=`echo $d | tr ' ' '_'`
+	d=`echo $d | tr ' ' '_'`
 #replaces all punctuation with empty space
-d=`echo $d | tr '. , ! : ; ?' ' '`
-echo $d > phrases.txt
-#d=`sed 's/__*//g' phrases.txt`
-echo $d > phrases.txt
-#replaces " _" with " "
-d=`sed '1,$s/ _/ /g' phrases.txt`
-echo $d > phrases.txt
-#replaces "_" at the end of lines with " "
-d=`sed '1,$s/_$/ /g' phrases.txt`
-echo $d > phrases.txt
+	d=`echo $d | tr '. , ! : ; ?' ' '`
+	echo $d > phrases.txt
+#replace " _" with ""
+	d=`sed 's/ _/ /g' phrases.txt`
+	echo $d > phrases.txt
 #replaces "_ " with " "
-d=`sed '1,$s/_ / /g' phrases.txt`
-echo $d > phrases.txt
+	d=`sed '1,$s/_ / /g' phrases.txt`
+	echo $d > phrases.txt
+#replaces "_" at the end of lines with " "
+	d=`sed '1,$s/_$/ /g' phrases.txt`
+	echo $d > phrases.txt
+#replace ___ in phrases
+	d=`sed '1,$s/^__*//g' phrases.txt`
+	echo $d > phrases.txt
 #declare array named hash
-declare -A hash
+	declare -A hash
 #loop through $d to get the $phrases
-for phrase in $d
-	do
+	for phrase in $d
+		do
 	#store the value of the associative array hash, $phrase is the key
 	#initial value is 0. if new it is incremented
-	count=${hash["$phrase"]}
+		count=${hash["$phrase"]}
 	#sets count to 1 if the string is new
-	if [[ "$count" == "" ]]
-	then    
-		count=1
-		hash["$phrase"]=$count
-	else
+		if [[ "$count" == "" ]]
+		then    
+			count=1
+			hash["$phrase"]=$count
+		else
 	#increments if the phrase is old
-	count=$((count+1))
-	hash["$phrase"]=$count
-	fi
+			count=$((count+1))
+			hash["$phrase"]=$count
+		fi
+	done
 done
-done
-for key in ${!hash[@]}
-	do
+for key in ${!hash[@]}	
+do
 		#print tally (the number of times the phrase appears, aka count
 		#and print the key value,the phrase
 		echo "${hash["$key"]} $key"
