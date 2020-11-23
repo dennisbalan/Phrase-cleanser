@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#Dennis Balan, 11/23/2020, CSE 224, phrase reader that reads phrases and counts the number of times that they appear.
+#Dennis Balan, 11/23/2020, CSE 224, phrase reader that reads phrases,cleanses them and counts the number of times that they appear.
 
 #reads input from user until ctrl-d comes
 while read a
